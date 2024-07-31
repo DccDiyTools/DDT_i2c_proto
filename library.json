@@ -1,0 +1,33 @@
+{
+    "$schema": "https://raw.githubusercontent.com/platformio/platformio-core/develop/platformio/assets/schema/library.json",
+    "name": "DDT_i2c_proto",
+    "version": "0.0.1",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/DccDiyTools/DDT_i2c_proto"
+    },
+    "description": "Common implementation of the DccDiyTools I2C Protocol",
+    "keywords": ["I2C","DccDiyTools", "Trains", "DDT", "DCC", "Loconet", "JMRI"],
+    "authors":
+    [{
+        "name": "Daniel Vilas",
+        "email": "daniel.vilas@gmail.com",
+        "url": "https://github.com/danielvilas"
+    }],
+    "license": "EUPL-1.2",
+    "frameworks": "*",
+    "platforms": "*",
+    "headers": ["DdtProto.h", "DdtProtoMaster.h","DdtProtoClient.h"],
+    "examples": [
+    {
+        "name": "Stm32 Master",
+        "base": "examples/Stm32Master",
+        "files": [
+            "platformio.ini",
+            "include/*",
+            "src/*",
+            "README"
+        ]
+    }],
+    "dependencies":{}
+}
