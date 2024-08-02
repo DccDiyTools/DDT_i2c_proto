@@ -1,0 +1,446 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesClass{DccDiyTools/DccDiyToolsPics}[2022/06/24 Dcc Diy Tools Pics Package v0.1]
+
+\RequirePackage{tikz}
+%% ----------------
+%% Simple pics for diagrams
+%% ----------------
+
+\tikzset{
+    screwTerminal/.pic={
+        
+         \draw[fill=gray] (-0.5,-0.25) rectangle +(1,0.5);
+         \draw[fill=lightgray] (-0.25,0) circle(.16);
+         \draw [color=white, line width=2pt,cap=butt] (-.33,.08) -- (-.17,-.08);
+         \draw[fill=lightgray] (0.25,0) circle(.16);
+         \draw [color=white, line width=2pt,cap=butt] (.25,.12) -- (.25,-.12);
+         \node (-west) at (-0.6,0) {};
+         \node (-cable-down) at (-0,-0.35) {};
+         \node (-cable-up) at (-0,0.35) {};
+    }
+}
+
+\tikzset{
+    jack/.pic={
+        \draw[fill=black!75]  (-.4, 0.3) arc(90:270:0.3)
+        -- +(0.3,0) -- +(0.3,0.6) -- +(0,0.6);
+        %\draw[fill=black!75] (-1,-0.3) rectangle +(1,0.6);
+        
+        \draw[fill=lightgray!75] (-0.2,-0.25) rectangle +(0.6,0.5);
+        \draw[fill=black!75] (0.4,-0.2) rectangle +(0.1,0.4);
+        \draw[fill=lightgray!75] (0.5,-0.25) rectangle +(0.2,0.5);
+        %\draw[red] (-1,0.3) rectangle +(1.4,-0.6);
+        \node (-cable) at (-0.8,0) {};
+        \node (-point) at (0.8,0) {};
+   }
+}
+
+\tikzset{
+    JstXh2/.pic={
+        % \draw [step=0.1,very thin, yellow] (-1,-1) grid (1,1);
+        % \draw [step=0.5,very thin, red] (-1,-1) grid (1,1);
+        % \draw [very thin, green] (-1,-1) grid (1,1);
+        
+        \draw [color=lightgray, line width=3pt,cap=round] (.15,0.3) -- (.15,-.45);
+        \draw [color=lightgray, line width=3pt,cap=round] (-.15,0.3) -- (-.15,-.45);
+
+        \draw[fill=white] (-0.4,0.2) -- (-0.4,-0.5) -- (-0.2,-0.5) 
+            -- (-0.2,-.1) -- (0.2, -.1) -- (0.2,-0.5)
+            -- (0.4,-0.5) -- (0.4, 0.2) --(-0.4,0.2);
+        \draw[fill=white] (-0.4,0.2) rectangle +(0.1,0.3);
+        \draw[fill=white] (0.4,0.2) rectangle +(-0.1,0.3);
+
+        \node (-cable) at (-0,-0.6) {};
+        \node (-pcb) at (-0,0.6) {};
+   }
+}
+
+\tikzset{
+    JstXh4/.pic={
+        % \draw [step=0.1,very thin, yellow] (-1,-1) grid (1,1);
+        % \draw [step=0.5,very thin, red] (-1,-1) grid (1,1);
+        % \draw [very thin, green] (-1,-1) grid (1,1);
+        
+        \draw [color=lightgray, line width=3pt,cap=round] (.45,0.3) -- (.45,-.45);
+        \draw [color=lightgray, line width=3pt,cap=round] (.15,0.3) -- (.15,-.45);
+        \draw [color=lightgray, line width=3pt,cap=round] (-.15,0.3) -- (-.15,-.45);
+        \draw [color=lightgray, line width=3pt,cap=round] (-.45,0.3) -- (-.45,-.45);
+
+        \draw[fill=white] (-0.7,0.2) -- (-0.7,-0.5) -- (-0.5,-0.5) 
+            -- (-0.5,-.1) -- (-0.35,-.1) -- (-.35,-.45) 
+            -- (.35,-.45) -- (.35,-.1)
+            -- (0.5, -.1) -- (0.5,-0.5)
+            -- (0.7,-0.5) -- (0.7, 0.2) --(-0.7,0.2);
+
+        \draw[fill=white] (-0.7,0.2) rectangle +(0.1,0.3);
+        \draw[fill=white] (0.7,0.2) rectangle +(-0.1,0.3);
+
+        \node (-cable) at (-0,-0.6) {};
+        \node (-pcb) at (-0,0.6) {};
+        \node (-p0) at (-.45,0.5) {};
+        \node (-p1) at (-.15,0.5) {};
+        \node (-p2) at (.15,0.5) {};
+        \node (-p3) at (.45,0.5) {};
+        \node (-c0) at (-.45,-0.6) {};
+        \node (-c1) at (-.15,-0.6) {};
+        \node (-c2) at (.15,-0.6) {};
+        \node (-c3) at (.45,-0.6) {};
+   }
+}
+
+\tikzset{
+    SmallDiode/.pic={
+        %\draw [step=0.1,very thin, yellow] (-1,-1) grid (1,1);
+        %\draw [step=0.5,very thin, red] (-1,-1) grid (1,1);
+        %\draw [very thin, green] (-1,-1) grid (1,1);
+        \draw (-0.2,0) -- (0.2,0);
+        \draw [fill=black!75] (-0.1, -0.1) -- (0.1,0)
+            -- (-0.1, 0.1) --(-0.1, -0.1) ;
+        \draw (0.1,0.1) -- (0.1,-0.1);
+        \node[](-p) at (-0.2,0) {};
+        \node[](-n) at (0.2,0) {};
+    
+   }
+}
+
+\tikzset{
+    pics/JumperPadNO/.style ={
+      code = {
+      
+        \draw [gray, fill=gray!75] (-0.5,0.2) -- (-0.5,0.6) arc (180:90:0.3)
+            -- (0.2,0.9) arc (90:0:.3) -- (0.5,0.2)
+            -- (-0.5,0.2);
+        
+        \draw [gray, fill=gray!75] (-0.5,-0.2) -- (-0.5,-0.6) arc (-180:-90:0.3)
+            -- (0.2,-0.9) arc (-90:0:.3) -- (0.5,-0.2)
+            -- (-0.5,-0.2);
+        
+    }}
+}
+
+
+\tikzset{
+    pics/JumperPadSolder/.style ={
+      code = {
+      
+        \draw [gray, fill=gray!75] (-0.5,0.2) -- (-0.5,0.6) arc (180:90:0.3)
+            -- (0.2,0.9) arc (90:0:.3) -- (0.5,0.2)
+            -- (-0.5,0.2);
+        
+        \draw [gray, fill=gray!75] (-0.5,-0.2) -- (-0.5,-0.6) arc (-180:-90:0.3)
+            -- (0.2,-0.9) arc (-90:0:.3) -- (0.5,-0.2)
+            -- (-0.5,-0.2);
+
+        \draw[gray!60, fill=gray!45] (-0.4,-0.5) -- (-0.4,0.5) arc(180:90:.3)
+        -- (0.1,0.8) arc(90:0:.3) -- (0.4,-0.5) arc(0:-90:.3)
+        -- (-0.1,-0.8) arc(-90:-180:.3);
+        
+    }}
+}
+
+\tikzset{
+    pics/JumperPadNC/.style ={
+      code = {
+        \draw [yellow, fill=yellow!75] (-0.2,0.3) rectangle (0.2,-0.3);
+        
+        \pic[] at (0,0) {JumperPadNO};
+        
+        \node[](-cut1) at (-0.5,0) {};
+        \node[](-cut2) at (0.5,0) {};
+    }}
+}
+
+
+\tikzset{
+    pics/SmallLed/.style args={#1}{
+      code = {
+        \draw (-0.2,0) -- (0.2,0);
+        \draw [fill=#1!75] (-0.1, -0.1) -- (0.1,0)
+            -- (-0.1, 0.1) --(-0.1, -0.1) ;
+        \draw (0.1,0.1) -- (0.1,-0.1);
+        
+        \draw [] (0.04,0.06) -- +(0.04,0.08);
+        \draw [] (0.0,0.08) -- +(0.04,0.08);
+        
+        \node[](-p) at (-0.2,0) {};
+        \node[](-n) at (0.2,0) {};
+    }}
+}
+
+\tikzset{
+    pics/SmallOpto/.style={
+      code = {
+        % \draw [step=0.1,very thin, yellow] (-1,-1) grid (1,1);
+        % \draw [step=0.5,very thin, red] (-1,-1) grid (1,1);
+        % \draw [very thin, green] (-1,-1) grid (1,1);
+        \pic[rotate=-90] at (-0.2,0) {SmallLed=black};
+        \draw[line width=1pt] (0.1,0.2) -- (0.1,-0.2);
+        \draw[] (0.3,0.3) -- (0.1,0.1);
+        \draw[] (0.3,-0.3) -- (0.1,-0.1);
+        \draw[fill=black!75, cap=round] (0.3,-0.25) -- (0.3,-0.3)
+            -- (0.25,-0.3) -- (0.3,-0.25);
+        
+    }}
+}
+
+\tikzset{
+    pics/DccIface/.style={
+      code = {
+        % \draw [step=0.1,very thin, yellow] (-1,-1) grid (1,1);
+        % \draw [step=0.5,very thin, red] (-1,-1) grid (1,1);
+        % \draw [very thin, green] (-1,-1) grid (1,1);
+        \pic[] at (0.8,0) {SmallOpto};
+        \draw[] (-1.3,-0.5) rectangle +(2.6,1);
+
+        \node[above] at (-0.5,0){DCC};
+        \node[below] at (-0.5,0){Interface};
+
+        \node[](-east-out)at(1.4,0.15){};
+        \node[](-east-in)at(1.4,-0.15){};
+        \node[](-east)at(1.4,0){};
+
+        \node[](-west-out)at(-1.4,-0.15){};
+        \node[](-west-in)at(-1.4,0.15){};
+        \node[](-west)at(-1.4,0){};
+        
+    }}
+}
+
+\tikzset{
+    DiodeBrigde/.pic={
+        %\draw [step=0.1,very thin, yellow] (-1,-1) grid (1,1);
+        %\draw [step=0.5,very thin, red] (-1,-1) grid (1,1);
+        %\draw [very thin, green] (-1,-1) grid (1,1);
+        \draw  (-0.6, -0.3) rectangle +(1.2,0.6); 
+        \pic[scale=0.5, rotate=45]  at (-0.1,0.1) {SmallDiode};
+        \pic[scale=0.5, rotate=45]  at (0.1,-0.1) {SmallDiode};
+        \pic[scale=0.5, rotate=-45]  at (0.1,0.1) {SmallDiode};
+        \pic[scale=0.5, rotate=-45]  at (-0.1,-0.1) {SmallDiode};
+
+        \node[scale=0.25] at (0.25,0) {$+$};
+        \node[scale=0.25] at (-0.25,0) {$-$};
+        \node[scale=0.25] at (0,0.25) {$\sim$};
+        \node[scale=0.25] at (0,-0.25) {$\sim$};
+ 
+        \node[scale=0.5] at (-0.45,0) {AC};
+        \node[scale=0.5] at (0.45,0) {CC};
+        \node(-ac) at (-0.7,0) {};
+        \node(-cc) at (0.7,0) {};
+        \node(-up) at (0,0.5) {};
+        \node(-down) at (0,-0.5) {};
+   }
+}
+\tikzset{
+    pics/RailStraigh/.style args={#1}{
+      code = {
+        %\draw [step=0.1,very thin, yellow] (-2,-1) grid (2,1);
+        %\draw [step=0.5,very thin, red] (-2,-1) grid (2,1);
+        %\draw [very thin, green] (-2,-1) grid (2,1);
+        
+       % \draw[] (-1.3,-0.5) rectangle +(2.6,1);
+
+        \node[](-east)at(1.4,0){};
+
+        \node[](-west)at(-1.4,0){};
+
+        \foreach \x [] in {-1.24,-1.04,...,1.24}{  
+            \draw[#1,fill=#1!75] (\x,0.4) rectangle +(0.08,-.8) ;
+        }
+        \draw[gray!50, fill=gray!50] (-1.3,0.22) rectangle (1.3,0.20);
+        \draw[gray, fill=gray] (-1.3,0.24) rectangle (1.3,0.22);
+        \draw[gray!25, fill=gray!25] (-1.3,0.28) rectangle (1.3,0.24);
+        
+
+        \draw[gray!50, fill=gray!50] (-1.3,-0.26) rectangle (1.3,-0.28);
+        \draw[gray, fill=gray] (-1.3,-0.26) rectangle (1.3,-0.24);
+        \draw[gray!25, fill=gray!25] (-1.3,-0.24) rectangle (1.3,-0.20);
+    }}  
+}
+
+\tikzset{
+    pics/Xt60-M/.style={
+        code = {
+            \draw[Peach!75, fill=Peach!50]
+                (-0.8,-.7) rectangle +(0.8,1)
+                (-0.8,0.3) -- (-.6,0.7)
+                -- (0.4,0.7) -- (0.4,0.3);
+            \draw[Peach!75, fill=Peach!50]    
+                (0,0.3) -- (0.3,0.7) -- (0.5,0.7)
+                --(0.8,0.3) -- (0.8,-.7) -- (0,-.7);
+            \draw[Peach!75, fill=Peach!65] (0.1,-0.65)
+                --(0.1,0.3) --(0.35,0.65) -- (0.45,0.65)
+                --(0.7,0.3) -- (0.7,-0.65) -- (0.1,-0.65);
+            \draw[yellow!75, fill=yellow!50] 
+            (0.4,0.25) circle (0.15)
+            (0.4,-0.3) circle (0.15);
+            \node[rotate=-90, scale=.5] at (-0.55,-0.2) {XT60-M};
+            \node(-t-out) at(1,0.25){};
+            \node(-b-out) at(1,-0.3){};
+            \node(-t-in) at(-1,0.25){};
+            \node(-b-in) at(-1,-0.3){};
+        }}  
+}
+
+\tikzset{
+    pics/Xt60-F/.style={
+        code = {
+            \draw[Peach!75, fill=Peach!50]
+                (-0.8,-.7) rectangle +(0.8,1)
+                (-0.8,0.3) -- (-.6,0.7)
+                -- (0.4,0.7) -- (0.4,0.3);
+            \draw[Peach!75, fill=Peach!65]    
+                (0,0.3) -- (0.3,0.7) -- (0.5,0.7)
+                --(0.8,0.3) -- (0.8,-.7) -- (0,-.7);
+            \draw[Peach!75, fill=Peach!50] (0.1,-0.65)
+                --(0.1,0.3) --(0.35,0.65) -- (0.45,0.65)
+                --(0.7,0.3) -- (0.7,-0.65) -- (0.1,-0.65);
+            \draw[yellow!75, fill=yellow!50] 
+            (0.4,0.25) circle (0.225)
+            (0.4,-0.3) circle (0.225);
+            \draw[yellow!75, fill=Tan!75] 
+            (0.4,0.25) circle (0.125)
+            (0.4,-0.3) circle (0.125);
+            \node[rotate=-90, scale=.5] at (-0.55,-0.2) {XT60-F};
+            \node(-t-out) at(1,0.25){};
+            \node(-b-out) at(1,-0.3){};
+            \node(-t-in) at(-1,0.25){};
+            \node(-b-in) at(-1,-0.3){};
+        }}  
+}
+
+
+% \newcommand\PaintRailStraight[4]{
+%     \draw[#1] (-#2,#3) rectangle (#2,#4);
+% }
+
+\newcommand\PaintRailStraightDelta[5]{
+    \draw[#1,fill= #1] (#2,#3) rectangle +(#4,#5);
+}
+\newcommand\PaintRailBeizer[6]{
+                    %{#1}   {#2} {#3} {#4}    {#5}         {#6}
+    %\PaintRailBeizer{color}{stx}{sty}{h=0.02}{l=-2.6->2.0}{r=0.2}
+    \draw [#1] (#2,#3) -- ++(#6,0)
+        .. controls +(1.4,0) and +(-1,0) .. ++(#5,-1) -- ++(#6,0)
+        -- ++(0,-#4) -- ++(-#6,0)
+        .. controls +(-1,0) and +(1.4,0) .. ++(-#5,1) -- ++(-#6,0);
+}
+
+\newcommand\PaintRailBeizerUp[6]{
+                     %{#1}   {#2} {#3} {#4}    {#5}         {#6}
+    %\PaintRailBeizer{color}{stx}{sty}{h=0.02}{l=-2.6->2.0}{r=0.2}
+    \draw [#1, fill=#1] (#2,#3) -- ++(#6,0)
+    .. controls +(0.85,0) and +(0,0) .. ++(#5,-0.52) -- ++(0,-#4)
+    .. controls +(0,0) and +(0.85,0) .. ++(-#5,0.52) -- ++(-#6,0);
+}
+
+\newcommand\PaintRailBeizerDown[6]{
+                     %{#1}   {#2} {#3} {#4}    {#5}         {#6}
+    %\PaintRailBeizer{color}{stx}{sty}{h=0.02}{l=-2.6->2.0}{r=0.2}
+    \draw [#1, fill=#1] (#2,#3) 
+    .. controls +(0,0) and +(-0.5,0) .. ++(#5,-0.38)
+    -- ++(#6,0) -- ++(0,-#4) -- ++(-#6,0)
+    .. controls +(-0.5,0) and +(0,0) .. ++(-#5,0.38);
+}
+
+
+\newcommand\PaintRailStraightDxDy[6]{
+                     %{#1}   {#2} {#3} {#4}   {#5}{#6}
+    %\PaintRailBeizer{color}{stx}{sty}{h=0.02}{dx}{dy}
+    \draw [#1, fill=#1] (#2,#3) -- ++(#5,#6) -- ++(0,#4)
+        -- ++(-#5,-#6) -- ++(0,-#4);
+}
+
+
+\tikzset{
+    pics/Turnout/.style args={#1}{
+      code = {
+                %\draw [step=0.1,very thin, yellow] (-2,-1) grid (2,1);
+        %\draw [step=0.5,very thin, red] (-2,-1) grid (2,1);
+        %\draw [very thin, green] (-2,-1) grid (2,1);
+        
+        %\draw[] (-1.3,-0.5) rectangle +(2.6,1);
+
+        \node[](-east)at(2.7,0){};
+
+        \node[](-west)at(-2.7,0){};
+
+        %4 Traviesas paralelas
+        \foreach \x [] in {-2.54,-2.34,...,-1.94}{
+            \draw[#1,fill=#1!75] (\x,0.4) rectangle +(0.08,-.8) ;
+            \draw[#1,fill=#1!75] (\x,1.4) rectangle +(0.08,-.8) ;
+        }
+
+        %4 ultimas solo una normal
+        \foreach \x [] in {-1.94,-1.74,...,-1.34}{
+            \draw[#1,fill=#1!75] (\x,1.4) rectangle +(0.08,-1.8) ;
+        }
+        \foreach \x [] in {-1.14,-0.94,...,-0.54}{
+            \draw[#1,fill=#1!75] (\x,1.2) rectangle +(0.08,-1.6) ;
+        }
+        \foreach \x [] in {-0.34,-.14,...,0.06}{
+            \draw[#1,fill=#1!75] (\x,1.0) rectangle +(0.08,-1.4) ;
+        }
+        \foreach \x [] in {0.26,.46,...,0.86}{
+            \draw[#1,fill=#1!75] (\x,0.8) rectangle +(0.08,-1.2) ;
+        }
+        \foreach \x [] in {0.86,1.06,...,1.46}{
+            \draw[#1,fill=#1!75] (\x,0.6) rectangle +(0.08,-1.0) ;
+        }
+        %5 ultimas solo una normal
+        \foreach \x [] in {2.46,2.26,...,1.46}{
+            \draw[#1,fill=#1!75] (\x,0.4) rectangle +(0.08,-.8) ;
+        }
+
+        %Thrown Up
+        %\PaintRailBeizer{color}{stx}{sty}{h=0.02}{l=-2.6->2.2-2r}{r=0.2}
+        \PaintRailBeizer{gray!50, fill=gray!50}{-2.6}{1.22}{0.02}{4.4}{0.2}
+        \PaintRailBeizer{gray, fill=gray}{-2.6}{1.24}{0.02}{4.4}{0.2}
+        \PaintRailBeizer{gray!25, fill=gray!25}{-2.6}{1.28}{0.04}{4.4}{0.2}
+
+
+        \PaintRailBeizerUp{gray!50}{-2.6}{0.74}{0.02}{2.4}{0.2}
+        \PaintRailBeizerUp{gray}{-2.6}{0.76}{0.02}{2.4}{0.2}
+        \PaintRailBeizerUp{gray!25}{-2.6}{0.80}{0.04}{2.4}{0.2}
+
+        \PaintRailBeizerDown{gray!50}{0.33}{0.12}{0.02}{1.67}{0.2}
+        \PaintRailBeizerDown{gray}{0.33}{0.14}{0.02}{1.67}{0.2}
+        \PaintRailBeizerDown{gray!25}{0.33}{0.18}{0.04}{1.67}{0.2}
+
+
+        %Close Up
+        \PaintRailStraightDelta{gray!50}{-2.6}{0.22}{2.6}{-0.02}
+        \PaintRailStraightDelta{gray}{-2.6}{0.24}{2.6}{-0.02}
+        \PaintRailStraightDelta{gray!25}{-2.6}{0.28}{2.6}{-0.04}
+
+
+        %CloseUp 2
+        \PaintRailStraightDxDy{gray!50}{-.3}{0.42}{-0.02}{-0.15}{0.08}
+        \PaintRailStraightDxDy{gray}{-.3}{0.44}{-0.02}{-0.15}{0.08}
+        \PaintRailStraightDxDy{gray!25}{-.3}{0.48}{-0.04}{-0.15}{0.08}
+
+        \PaintRailStraightDxDy{gray!50}{.3}{0.22}{-0.02}{-0.6}{0.2}
+        \PaintRailStraightDxDy{gray}{.3}{0.24}{-0.02}{-0.6}{0.2}
+        \PaintRailStraightDxDy{gray!25}{.3}{0.28}{-0.04}{-0.6}{0.2}
+
+
+        \PaintRailStraightDelta{gray!50}{.3}{0.22}{2.3}{-0.02}
+        \PaintRailStraightDelta{gray}{.3}{0.24}{2.3}{-0.02}
+        \PaintRailStraightDelta{gray!25}{.3}{0.28}{2.3}{-0.04}
+
+        \PaintRailStraightDxDy{gray!50}{-.3}{0.12}{-0.02}{-0.2}{-0.04}
+        \PaintRailStraightDxDy{gray}{-.3}{0.14}{-0.02}{-0.2}{-0.04}
+        \PaintRailStraightDxDy{gray!25}{-.3}{0.18}{-0.04}{-0.2}{-0.04}
+
+        \PaintRailStraightDelta{gray!50}{-.3}{0.12}{0.63}{-0.02}
+        \PaintRailStraightDelta{gray}{-.3}{0.14}{0.63}{-0.02}
+        \PaintRailStraightDelta{gray!25}{-.3}{0.18}{0.63}{-0.04}
+        
+        %Close Down
+        \PaintRailStraightDelta{gray!50}{-2.6}{-0.26}{5.2}{-0.02}
+        \PaintRailStraightDelta{gray}{-2.6}{-0.26}{5.2}{0.02}
+        \PaintRailStraightDelta{gray!25}{-2.6}{-0.24}{5.2}{0.04}
+
+        \draw[yellow!20!gray,fill=yellow!10!gray](1.66,0.45) rectangle +( 0.48,0.2);
+        %\draw[green](0,-0.5)--(0,1.5);
+    }}  
+}

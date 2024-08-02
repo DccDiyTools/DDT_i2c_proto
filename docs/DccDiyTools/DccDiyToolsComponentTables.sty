@@ -1,0 +1,66 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesClass{DccDiyTools/DccDiyToolsComponentTables}[2022/06/24 Dcc Diy Tools Pics Component Tables v0.1]
+\RequirePackage{longtable}
+\newcommand\addvmargin[1]{
+  \node[fit=(current bounding box),inner ysep=#1,inner xsep=0]{};
+}
+
+\newcommand\connectorblockinfo[2]{
+    \thead[b]{#1} & \multicolumn{4}{|l|}{
+        \makecell[l]{ #2 }
+    } \\
+    \hline
+}
+
+\newcommand\connectorinfo[3]{
+    &
+    \thead[b]{#1} & #2 & \multicolumn{2}{|l|}{
+        \makecell[l]{ #3 }
+    } \\
+    \cline{2-5}  
+}
+
+\newcommand\connectordata[7][3]{
+    & \multirow{#1}{*}{
+            \begin{tikzpicture}[baseline=0]
+                #2
+                \addvmargin{1mm}
+            \end{tikzpicture} 
+    }
+    
+    &\thead[b]{Origen} & \thead[b]{Max} &
+    
+    \multirow{#1}{*}{
+            \begin{tikzpicture}[baseline=0]
+                #3
+                \addvmargin{1mm}
+            \end{tikzpicture} 
+    } \\
+        \cline{3 - 4}
+        & & #4 & #6 & \\
+        \cline{3 - 4}
+        & & #5 & #7 & \\
+
+        \ifnum #1>3 
+            \cline{3 - 4}
+             & & & & \\
+        \fi
+        \ifnum #1>4
+                \cline{3 - 4}
+                & & & & \\
+        \fi
+        \ifnum #1>5
+                \cline{3 - 4}
+                & & & & \\
+        \fi
+        \cline{2 -5}
+}
+
+\newcommand\beginConnectorTable[1]{
+
+        \hline
+        \multicolumn{5}{|c|}{\thead[b]{#1}}  \\
+        \hline
+}
+
+\newcommand{\tabitem}{~~\llap{\textbullet}~~}
