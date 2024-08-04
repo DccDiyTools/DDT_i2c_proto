@@ -1,0 +1,50 @@
+% !TeX encoding = UTF-8
+% !TeX spellcheck = es_ES
+% !TeX root = Proto.tex
+%!TEX root=Proto.tex
+Como base de nuestro Bus, vamos a utilizar I2C puesto que prácticamente todo los micro-controladores tienen
+hardware dedicado para dicho protocolo y es el que menos pines nos requieren (2). SPI se descarta por requerir
+mas pines (3+D). Dicho esto se ha evaluado y descartado los Buses CAN y RS-XXX por requerir como mínimo un chip
+más (Transceivers o PHY) y no tendiendo todos los micros soporte a dichos buses. Estos buses, aun estando
+pensados para realizar comunicaciones externas, es posible usarlos en cortas distancias, como una placa o entre
+placas de un dispositivo cerrado.
+
+Basandonos en el Modelo OSI de redes definiremos la capa física, I2C se encargara del transporte y la
+comunicacion de los datos. Luego nos queda las capas superiores (sesión-aplicación) donde definiremos un
+protocolo propio, uno base para poder gestionar los dispositivos y varios por encima para cada tipo de panel
+que queramos hacer.
+
+\subsection{Capa Fisica}
+I2C ya nos marca unos mínimos de como deben ser las conexiones, en este apartado dejaremos simplemente la
+definición de los conectores y los cables a usar.
+
+La conexión física es en estrella, partiendo del nodo central o maestro. Pero todos los dispositivos compartiran
+las lineas I2C (SDA y SCL)
+
+Los cables serán AWG 22 e irán a un conector JST\_PH2.0 de 5 pines:
+\begin{itemize}
+    \item VCC (3.3v 100mA max)
+    \item SDA (PullUp 1K Master)
+    \item SCL (PullUp 1K Master)
+    \item GND
+    \item INT (PullUp 1K Master)
+\end{itemize}
+
+
+\subsection{Protocolo Sesion}
+Este protocolo sera el base que todos los dispositivos deben implementar, tendrá funciones de
+\begin{itemize}
+    \item Init
+    \item Reset
+    \item Identificacion
+    \item Gestion de direcciones I2C
+    \item \dots
+\end{itemize}
+
+Por una parte se definirán el flujo para iniciar los dispositivos y una serie de Registros y Operaciones I2C para
+el funcionamiento mínimo de los dispostivos
+
+\subsection{Protocolos de Aplicacion}
+
+Por encima de I2C y de la sesión se definirán otros Registros/Operaciones I2C para cada uno de los tipos de
+dispositivos que existan,  por ejemplo para botones, TFTs, palancas de control,\dots.

@@ -1,0 +1,18 @@
+\babel@toc {spanish}{}\relax 
+\contentsline {section}{\numberline {1}Introduccion}{3}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Modulo de Origen}{3}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}Modulo de Ejemplo}{3}{subsection.1.2}%
+\contentsline {subsection}{\numberline {1.3}Problemas y Soluciones}{4}{subsection.1.3}%
+\contentsline {subsubsection}{\numberline {1.3.1}Detectar Pulsaciones}{5}{subsubsection.1.3.1}%
+\contentsline {subsubsection}{\numberline {1.3.2}Coste Computacional}{5}{subsubsection.1.3.2}%
+\contentsline {subsubsection}{\numberline {1.3.3}Disponibilidad de Librerías/Perifericos}{5}{subsubsection.1.3.3}%
+\contentsline {section}{\numberline {2}Protocolo Base: I2C}{6}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Capa Fisica}{6}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Protocolo Sesion}{6}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}Protocolos de Aplicacion}{6}{subsection.2.3}%
+\contentsline {section}{\numberline {3}Capa Sesión}{7}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Estados del dispositivo}{7}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Proceso de inicio}{7}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Identificación}{7}{subsection.3.3}%
+\contentsline {section}{\numberline {4}Anexo I: Comandos Protocolo Sesión}{9}{section.4}%
+\contentsline {section}{\numberline {5}Indice}{11}{section.5}%

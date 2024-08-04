@@ -1,0 +1,20 @@
+@startuml
+state "Iniciando" as init
+state "UI Deshabilitado" as disabled
+state "UI Habilitado" as enabled
+state "UI Pendiente envio" as pending
+state "Closing" as closing
+
+
+[*] --> init
+disabled -left-> closing : Cmd Reset
+enabled -left-> closing : Cmd Reset
+pending -left-> closing : Cmd Reset
+closing -up-> init
+
+
+init --> disabled : I2C Request
+disabled --> enabled : Cmd Init
+enabled --> pending : User Interaction
+pending --> enabled: Cmd Read_Event
+@enduml
