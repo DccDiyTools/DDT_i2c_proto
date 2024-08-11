@@ -1,4 +1,5 @@
 #include <Arduino.h>
+#include <DdtProtoMaster.h>
 
 #ifndef SERIAL_OUT
 #define SERIAL_OUT SerialUSB
@@ -12,6 +13,7 @@ void setup()
 {
     SERIAL_OUT.begin(115200);
     pinMode(LED, OUTPUT);
+    initDdtProtoDevice();
 
 }
 
