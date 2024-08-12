@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#include <DdtProtoMaster.h>
+#include <DdtProtoClient.h>
 
 #ifndef SERIAL_OUT
 #define SERIAL_OUT SerialUSB
@@ -11,16 +11,21 @@
 
 u_int32_t next_High;
 u_int32_t next_Low;
-u_int32_t next_Scan;
 
 void setup()
 {
     SERIAL_OUT.begin(115200);
+    delay(1000);
     pinMode(LED, OUTPUT);
+
+    SERIAL_OUT.println("Stm32Slave Example Init");
     initDdtProtoDevice();
+    pinMode(PB6, INPUT_PULLUP);
+    pinMode(PB7, INPUT_PULLUP);
+
     next_High=millis() -1;
     next_Low=next_High+1000;
-    next_Scan=next_High;
+    
 }
 
 void loop(){
@@ -37,13 +42,4 @@ void loop(){
         while (next_Low<cMillis)next_Low+=2000;
     }
     
-    if(cMillis>next_Scan){
-        uint8_t found= scan_devices();
-        SERIAL_OUT.printf("Found: %u devices\n",found);
-        cMillis = millis();
-        next_Scan=cMillis+5000;
-        while (next_High<cMillis)next_High+=2000;
-        while (next_Low<cMillis)next_Low+=2000;
-    }
-
 }
