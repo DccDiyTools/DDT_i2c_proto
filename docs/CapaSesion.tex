@@ -3,13 +3,13 @@
 % !TeX root = Proto.tex
 %!TEX root=Proto.tex
 \subsection{Estados del dispositivo}
-Un dispositivo tiene 4 estados tal y como se ve en el diagrama de estados:
-\begin{itemize}
-    \item Iniciando
-    \item UI Deshabilitado
-    \item UI Habilitado
-    \item UI Pendiente envio
-\end{itemize}
+Un dispositivo tiene 5 estados tal y como se ve en el diagrama de estados:
+\begin{figure}[H]
+    \centering{}
+    \includegraphics[scale=0.8]{images/states.png}
+    \caption{Estados Dispositivos}
+    \label{fig:deviceStates}
+\end{figure}
 En iniciando el dispositivo se acaba de iniciar (o de resetear) y esta a la espera de la primera request I2C.
 En cuyo caso pasa a UI Deshabilitado, estado en el que el dispositivo respondera únicamente a peticiones I2C,
 ignorando “todo” lo que haga el usuario.
@@ -22,19 +22,23 @@ y se libera la linea INT.
 Se espera que los eventos del usuario se gestionen en una Cola, por lo que UI Habilitado seria equivalente a
 Cola Vacía  y UI Pendiente de envio Cola con Datos.
 
+Una vez recivido el comando de reset el dispositivo se pasa a un estado de reseto donde puede hacer limpieza
+de recursos antes de hacer un reset real. El proceso de limpieza debe terminar siempre y ejcutar una
+interrupcion del procesador para hacer un reset.
+
 Los dispositivos son libres de ampliar este diagrama de estados siempre y cuando ante el master respondan de
 una manera coherente con este diagrama. Para ello se recomienda no ampliarlo y tener un segundo estado interno.
 
 \subsection{Proceso de inicio}
 El master a su vez ejecuta los siguientes pasos:
 \begin{itemize}
-    \item Lista los dispositivos I2C. (@, R, Stop), siguiendo los ejemplos “I2C scan”, el resultado es una lista
-    de dispositivos (si podemos capturar el evento, el client bajara un pulso de su INT y registramos el pin INT)
-    \item Para cada dispositivo ejecutara un proceso de identificación mandando varios comandos (ver seccion
-    Identificacion) para comprobar que realmente es un dispositivo nuestro. En este
-    paso detectaremos si hay algun conflicto (varios Dispositivos con la misma dirección I2C) 
-    \item Resolucion de conflictos (…)
-    \item Inicializacion global (@=0)
+    \item{} Lista los dispositivos I2C. (@, R, Stop), siguiendo los ejemplos “I2C scan”, el resultado es una lista
+          de dispositivos (si podemos capturar el evento, el client bajara un pulso de su INT y registramos el pin INT)
+    \item{} Para cada dispositivo ejecutara un proceso de identificación mandando varios comandos (ver seccion
+          Identificacion) para comprobar que realmente es un dispositivo nuestro. En este
+          paso detectaremos si hay algun conflicto (varios Dispositivos con la misma dirección I2C)
+    \item{} Resolucion de conflictos (…)
+    \item{} Inicializacion global (@=0)
 \end{itemize}
 A partir de este momento el master deberá estar mirando los pines de int y consultar el dispositivo cada vez que
 este le baje a GND su linea de INT
