@@ -1,9 +1,6 @@
 #include <Arduino.h>
 #include <DdtProtoClient.h>
 
-#ifndef SERIAL_OUT
-#define SERIAL_OUT SerialUSB
-#endif
 
 #ifndef LED
 #define LED PC13
@@ -20,8 +17,6 @@ void setup()
 
     SERIAL_OUT.println("Stm32Slave Example Init");
     initDdtProtoDevice();
-    pinMode(PB6, INPUT_PULLUP);
-    pinMode(PB7, INPUT_PULLUP);
 
     next_High=millis() -1;
     next_Low=next_High+1000;

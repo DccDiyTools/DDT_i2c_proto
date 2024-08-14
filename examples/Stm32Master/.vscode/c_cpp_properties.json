@@ -105,6 +105,7 @@
                 "PIO_FRAMEWORK_ARDUINO_USB_FULLMODE",
                 "HSE_VALUE=8000000U",
                 "LED=PC13",
+                "SERIAL_OUT=SerialUSB",
                 "DDT_MODE_MASTER",
                 "STM32F1xx",
                 "ARDUINO=10808",

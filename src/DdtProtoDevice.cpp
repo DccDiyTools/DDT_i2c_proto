@@ -3,23 +3,23 @@
 
 void onClientReceive(int reg)
 {
-    SerialUSB.println("onReceive");
+    SERIAL_OUT.println("onReceive");
     while (Wire.available() > 0)
     {
         u_int8_t data;
         data = Wire.read(); // Not best option
-        SerialUSB.print(data);
+        SERIAL_OUT.print(data);
         int w = Wire.write(data + 1); // Test Made.
     }
 }
 
 void onClientRequest(void){
-    SerialUSB.println("onRequest");
+    SERIAL_OUT.println("onRequest");
     while (Wire.available() > 0)
     {
         u_int8_t data;
         data = Wire.read(); // Not best option
-        SerialUSB.print(data);
+        SERIAL_OUT.print(data);
         int w = Wire.write(data + 1); // Test Made.
     }
 }
@@ -28,11 +28,12 @@ u_int8_t initDdtProtoDevice()
 {
 #ifdef DDT_MODE_MASTER
 #pragma message "DDT_MODE_MASTER"
+    SERIAL_OUT.println("Begin Master");
     Wire.begin();
 #endif
 #ifdef DDT_MODE_CLIENT
 #pragma message "DDT_MODE_CLIENT"
-    SerialUSB.println("DDT_Proto_init");
+    SERIAL_OUT.println("Begin Client");
     Wire.begin(9);
     Wire.onReceive(onClientReceive);
     Wire.onRequest(onClientRequest);
