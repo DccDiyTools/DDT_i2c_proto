@@ -16,4 +16,7 @@
 #define CMD_get_status_R      0x0F 
 
 
+#define MASK_CAPS_PANEL 0xFC00 //1111 1100 0000 0000
+#define MASK_CAPS_BASIC_PROTOS 0x03FF //00 0011 1111 1111
+
 #endif

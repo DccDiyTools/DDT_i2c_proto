@@ -13,11 +13,18 @@ u_int32_t next_High;
 u_int32_t next_Low;
 u_int32_t next_Scan;
 
+
 void setup()
 {
     SERIAL_OUT.begin(115200);
     pinMode(LED, OUTPUT);
     initDdtProtoDevice();
+    delay(2000);//wait 2 seconds to allow clients init
+    SERIAL_OUT.println("Ddt I2C Protocol Master " DDT_VERSION  " (" __DATE__ ")");
+    
+
+    SERIAL_OUT.print("Free bytes: ");
+    SERIAL_OUT.println(FreeBytes());
     next_High=millis() -1;
     next_Low=next_High+1000;
     next_Scan=next_High;
@@ -38,8 +45,24 @@ void loop(){
     }
     
     if(cMillis>next_Scan){
-        uint8_t found= scan_devices();
-        SERIAL_OUT.printf("Found: %u devices\n",found);
+        p_i2c_dev found= scan_devices();
+        SERIAL_OUT.print("Free bytes: ");
+        SERIAL_OUT.println(FreeBytes());
+        u_int8_t n_Devices=0;
+        while (found != NULL){
+            p_i2c_dev curr= found;
+            found = found->next;
+            n_Devices++;
+
+            printI2cDevice(curr);
+            free(curr);
+            
+        }
+
+
+        SERIAL_OUT.printf("Found: %u devices\n",n_Devices);
+        SERIAL_OUT.print("Free bytes: ");
+        SERIAL_OUT.println(FreeBytes());
         cMillis = millis();
         next_Scan=cMillis+5000;
         while (next_High<cMillis)next_High+=2000;

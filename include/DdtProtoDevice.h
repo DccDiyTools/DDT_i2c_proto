@@ -4,6 +4,5 @@
 
 u_int8_t initDdtProtoDevice();
 
-u_int8_t scan_devices();
 
 #endif
