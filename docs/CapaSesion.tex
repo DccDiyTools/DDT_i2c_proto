@@ -17,7 +17,7 @@ ignorando “todo” lo que haga el usuario.
 Ante un comando de Iniciar, se pasa el estado UI Habilitado, en este estado se espera que el usuario realice
 acciones (pulsar botón, mover palancas,…) y en cuanto se captura algun evento se pase a UI Pendiente de envio.
 En este estado la línea INT debe estar baja. Cuando el máster envíe un comando de leer se vuelve a UI Habilitado
-y se libera la linea INT.
+y se libera la linea INT.\\frac{}{}
 
 Se espera que los eventos del usuario se gestionen en una Cola, por lo que UI Habilitado seria equivalente a
 Cola Vacía  y UI Pendiente de envio Cola con Datos.

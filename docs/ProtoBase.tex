@@ -2,15 +2,16 @@
 % !TeX spellcheck = es_ES
 % !TeX root = Proto.tex
 %!TEX root=Proto.tex
-Como base de nuestro Bus, vamos a utilizar I2C puesto que prácticamente todo los micro-controladores tienen
+
+Como base de nuestro Bus, vamos a utilizar I2C puesto que prácticamente todo los micro-controladores tienen % chktex 8
 hardware dedicado para dicho protocolo y es el que menos pines nos requieren (2). SPI se descarta por requerir
-mas pines (3+D). Dicho esto se ha evaluado y descartado los Buses CAN y RS-XXX por requerir como mínimo un chip
+mas pines (3+D). Dicho esto se ha evaluado y descartado los Buses CAN y RS-XXX por requerir como mínimo un chip % chktex 8
 más (Transceivers o PHY) y no tendiendo todos los micros soporte a dichos buses. Estos buses, aun estando
 pensados para realizar comunicaciones externas, es posible usarlos en cortas distancias, como una placa o entre
 placas de un dispositivo cerrado.
 
 Basandonos en el Modelo OSI de redes definiremos la capa física, I2C se encargara del transporte y la
-comunicacion de los datos. Luego nos queda las capas superiores (sesión-aplicación) donde definiremos un
+comunicacion de los datos. Luego nos queda las capas superiores (sesión-aplicación) donde definiremos un % chktex 8
 protocolo propio, uno base para poder gestionar los dispositivos y varios por encima para cada tipo de panel
 que queramos hacer.
 
@@ -24,11 +25,11 @@ las lineas I2C (SDA y SCL)
 Los cables serán AWG 22 e irán a un conector JST\_PH2.0 de 5 pines:
 
 \begin{itemize}
-    \item VCC (3.3v 100mA max)
-    \item SDA (PullUp 1K Master)
-    \item SCL (PullUp 1K Master)
-    \item GND
-    \item INT (PullUp 1K Master)
+    \item() VCC (3.3v 100mA max)
+    \item() SDA (PullUp 1K Master)
+    \item() SCL (PullUp 1K Master)
+    \item() GND
+    \item() INT (PullUp 1K Master)
 \end{itemize}
 
 
@@ -51,10 +52,10 @@ Una trama fisica I2C tipica tiene la forma (Negro Controla Master, Rojo controla
         ]
         SDA & L D{A6} D{A5} D{A4} D{A3} D{A2} D{A1} D{A0} D{R/W} D{[red]ACK} 8D{CMD} 8D{[red]Response}U \\
         SCL & h L 49{c} U \\
-        \extracode
+        \extracode()
         \begin{pgfonlayer}{background}
-            \begin{scope}[semitransparent ,semithick]
-                \vertlines[darkgray,dotted]{2,6, ...,106}
+            \begin{scope}[semitransparent,semithick]
+                \vertlines[darkgray,dotted]{2,6,...,106} % chktex 11
             \end{scope}
         \end{pgfonlayer}
     \end{tikztimingtable}
@@ -86,7 +87,7 @@ Request:
 \begin{figure}[H]
     \centering{}
     \begin{bytefield}{32}
-        \bitheader{0-31} \\
+        \bitheader{0-31} \\ % chktex 8
         \bitbox{4}{Four} & \bitbox{8}{Eight} &
         \bitbox{16}{Sixteen} & \bitbox{4}{Four}
     \end{bytefield}
@@ -96,11 +97,11 @@ Request:
 \subsection{Protocolo Sesion}
 Este protocolo sera el base que todos los dispositivos deben implementar, tendra funciones de
 \begin{itemize}
-    \item Init
-    \item Reset
-    \item Identificacion
-    \item Gestion de direcciones I2C
-    \item \dots
+    \item() Init
+    \item() Reset
+    \item() Identificacion
+    \item() Gestion de direcciones I2C
+    \item() \dots()
 \end{itemize}
 
 Por una parte se definiran el flujo para iniciar los dispositivos y una serie de Registros y Operaciones I2C para

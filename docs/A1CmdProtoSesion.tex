@@ -4,61 +4,61 @@
 %!TEX root=Proto.tex
 
 \begin{table}[h]
-    \resizebox{\columnwidth}{!}{%
-        \renewcommand\theadfont{\bfseries\sffamily}
-        \begin{tabular}{|l|l|l|l|l|}
-            \hline{}
-            \thead{Comando}  & \thead{Codigo} & \thead{Parametros} & \thead{Respuesta}         & \thead{Condiciones}                                                                     \\ \hline{}
-            Query I2C        & NA,R           &                    & ACK                       & Pulso Int si es posible                                                                 \\ \hline{}
-            Get\_ID          & 0x01, R        &                    & Serial Number             &                                                                                         \\ \hline{}
-            Get\_Caps        & 0x02, R        &                    & Capabilities              &                                                                                         \\ \hline{}
-            Get\_Caps\_proto & 0x02, R        & ID\_Proto          & Capabilities\_proto       &                                                                                         \\ \hline{}
-            Set\_addr        & 0x03, W        & nueva direccion    & OK/ERROR                  & Dirigida o Universal + Int\_down (solo uno)                                             \\ \hline{}
-            get\_addr        & 0x03, R        &                    & direccion                 & \begin{tabular}[c]{@{}l@{}}Universal + Int\_down\\ Dirigida puede ser ping\end{tabular} \\ \hline{}
-            reset            & 0x00,W         &                    & ACK                       & Dirigida o global                                                                       \\ \hline{}
-            e\_stop          & 0x04,W         & boolean            & ACK                       & global                                                                                  \\ \hline{}
-            sotd             & 0x05,W         &                    & ACK                       & global                                                                                  \\ \hline{}
-            send\_int        & 0x06,W         &                    & ACK                       &                                                                                         \\ \hline{}
-            ack\_int         & 0x06,R         &                    & Numero Eventos pendientes &                                                                                         \\ \hline{}
-            read\_event      & 0x07,R         &                    & PrimerEvento              &                                                                                         \\ \hline{}
-            Init             & 0x0F,W         &                    & ACK                       & Dirigida o Global                                                                       \\ \hline{}
-            get\_status      & 0x0F,R         &                    & ID\_Estado                &                                                                                         \\ \hline{}
-        \end{tabular}
-    }
-    \caption{Tabla de commandos}
-    \label{tab:Commands}
+      \resizebox{\columnwidth}{!}{%
+            \renewcommand\theadfont{\bfseries\sffamily}
+            \begin{tabular}{|l|l|l|l|l|}
+                  \hline{}
+                  \thead{Comando}  & \thead{Codigo} & \thead{Parametros} & \thead{Respuesta}         & \thead{Condiciones}                                                                     \\ \hline{}
+                  Query I2C        & NA,R           &                    & ACK                       & Pulso Int si es posible                                                                 \\ \hline{}
+                  Get\_ID          & 0x01, R        &                    & Serial Number             &                                                                                         \\ \hline{} % chktex 29
+                  Get\_Caps        & 0x02, R        &                    & Capabilities              &                                                                                         \\ \hline{} % chktex 29
+                  Get\_Caps\_proto & 0x02, R        & ID\_Proto          & Capabilities\_proto       &                                                                                         \\ \hline{} % chktex 29
+                  Set\_addr        & 0x03, W        & nueva direccion    & OK/ERROR                  & Dirigida o Universal + Int\_down (solo uno)                                             \\ \hline{} % chktex 29
+                  get\_addr        & 0x03, R        &                    & direccion                 & \begin{tabular}[c]{@{}l@{}}Universal + Int\_down\\ Dirigida puede ser ping\end{tabular} \\ \hline{} % chktex 29
+                  reset            & 0x00,W         &                    & ACK                       & Dirigida o global                                                                       \\ \hline{} % chktex 29
+                  e\_stop          & 0x04,W         & boolean            & ACK                       & global                                                                                  \\ \hline{} % chktex 29
+                  sotd             & 0x05,W         &                    & ACK                       & global                                                                                  \\ \hline{} % chktex 29
+                  send\_int        & 0x06,W         &                    & ACK                       &                                                                                         \\ \hline{} % chktex 29
+                  ack\_int         & 0x06,R         &                    & Numero Eventos pendientes &                                                                                         \\ \hline{} % chktex 29
+                  read\_event      & 0x07,R         &                    & PrimerEvento              &                                                                                         \\ \hline{} % chktex 29
+                  Init             & 0x0F,W         &                    & ACK                       & Dirigida o Global                                                                       \\ \hline{} % chktex 29
+                  get\_status      & 0x0F,R         &                    & ID\_Estado                &                                                                                         \\ \hline{}  % chktex 29
+            \end{tabular}
+      }
+      \caption{Tabla de commandos}
+      \label{tab:Commands}
 \end{table}
 
 \begin{itemize}
-    \item{} Query\_I2c: Es la consulta de existencia de I2C, no tiene parámetros y es lo que usan los scanners I2C
-          de ejemplo. Si es posible hará un pulso de la linea INT
-    \item{} Get\_ID: obtiene el Número de Serie o identificador del dispositivo, sera un array de bytes
-          no determinado, siendo el primero un identificador de tipo (fabricante u familia de microcontrolador)
-          segido del serial number del silicio.
-    \item{} get\_caps: Obtiene el byte array de las capacidades, 6 bits indincan el tipo panel y 10 bits los
-          protocolos basicos soportados, luego tantos bytes como protocolos extra soporte.
-    \item{} get\_caps\_proto: Se pasa como parámetro el id de protocolo y el dispositivo devuelve los bytes
-          específicos de cada protocolo (como por ejemplo numero botones,…)
-    \item{} set\_addr: Cambia la direccion I2C de un dispositivo, se necesita un reset despues. Puede ser dirigida
-          o global, pero si es global la linea INT del dispositivo deberá estar bajo y SOLO uno en este estado.
-    \item{} get\_addr: Lee la direccion de un disposivo, si es dirigido, es un ping y sirve para comprobar
-          que entiende nuestro protocolo. Si es global solo responderá el dispositivo con la linea INT abajo y SOLO
-          habrá uno.
-    \item{} reset: Reinicia el dispositivo.
-    \item{} e\_stop: señal de Parada, enviada desde el master. Por lo general sera la centralita quien lo lance
-          ante un corto. Es una forma de avisar a los dispositivos el estado. Este commando tiene un parámetro binario
-          con el estado del sistema.
-    \item{} sotd: Start Of The Day. Señal para reloj Rápido, para indicar un comienzo del día.
-    \item{} Send\_int, El master dirigira esta petición a un dispositivo con la idea de que el mismo baje su señal
-          INT a GND. Se mantendrá bajo hasta que el máster mande un ack\_int o lea la última interrupción
-    \item{} Ack\_int. El dispositivo destino devolverá el numero de eventos pendientes de leer, si es 0 liberará
-          la linea INT
-    \item{} Read\_event: El dispositivo destino devolverá al master el primer evento disponible, sera un array de
-          bytes, donde el primer bytes identifica al protocolo y el resto de bytes serán dependiente del protocolo.
-          Si la cola de enventos queda vacía liberarara la Linea INT
-    \item{} Init: envía a los dispositivos la señal para avanzar de estado. Los dispositivos empezaran a aceptar
-          los eventos de los usuarios.
-    \item{} get\_status: El dispositivo devolverá un byte con el identificador del estado, según la tabla de
-          estados definida en este protocolo.
+      \item{} Query\_I2c: Es la consulta de existencia de I2C, no tiene parámetros y es lo que usan los scanners I2C
+            de ejemplo. Si es posible hará un pulso de la linea INT
+      \item{} Get\_ID:\@ obtiene el Número de Serie o identificador del dispositivo, sera un array de bytes
+            no determinado, siendo el primero un identificador de tipo (fabricante u familia de microcontrolador)
+            segido del serial number del silicio.
+      \item{} get\_caps: Obtiene el byte array de las capacidades, 6 bits indincan el tipo panel y 10 bits los
+            protocolos basicos soportados, luego tantos bytes como protocolos extra soporte.
+      \item{} get\_caps\_proto: Se pasa como parámetro el id de protocolo y el dispositivo devuelve los bytes
+            específicos de cada protocolo (como por ejemplo numero botones,…)
+      \item{} set\_addr: Cambia la direccion I2C de un dispositivo, se necesita un reset despues. Puede ser dirigida
+            o global, pero si es global la linea INT del dispositivo deberá estar bajo y SOLO uno en este estado.
+      \item{} get\_addr: Lee la direccion de un disposivo, si es dirigido, es un ping y sirve para comprobar
+            que entiende nuestro protocolo. Si es global solo responderá el dispositivo con la linea INT abajo y SOLO
+            habrá uno.
+      \item{} reset: Reinicia el dispositivo.
+      \item{} e\_stop: señal de Parada, enviada desde el master. Por lo general sera la centralita quien lo lance
+            ante un corto. Es una forma de avisar a los dispositivos el estado. Este commando tiene un parámetro binario
+            con el estado del sistema.
+      \item{} sotd: Start Of The Day. Señal para reloj Rápido, para indicar un comienzo del día.
+      \item{} Send\_int, El master dirigira esta petición a un dispositivo con la idea de que el mismo baje su señal
+            INT a GND.\@ Se mantendrá bajo hasta que el máster mande un ack\_int o lea la última interrupción
+      \item{} Ack\_int. El dispositivo destino devolverá el numero de eventos pendientes de leer, si es 0 liberará
+            la linea INT
+      \item{} Read\_event: El dispositivo destino devolverá al master el primer evento disponible, sera un array de
+            bytes, donde el primer bytes identifica al protocolo y el resto de bytes serán dependiente del protocolo.
+            Si la cola de enventos queda vacía liberarara la Linea INT
+      \item{} Init: envía a los dispositivos la señal para avanzar de estado. Los dispositivos empezaran a aceptar
+            los eventos de los usuarios.
+      \item{} get\_status: El dispositivo devolverá un byte con el identificador del estado, según la tabla de
+            estados definida en este protocolo.
 
 \end{itemize}

@@ -10,4 +10,5 @@ RUN tlmgr update --self && tlmgr install tools siunits siunitx \
   ccicons csquotes babel-spanish \
   hyperxmp hyphen-spanish palatino\
   mathpazo fpl tex-gyre montserrat \
-  totpages everyshi listings tikz-timing
+  totpages everyshi listings tikz-timing \
+  pgfopts bytefield
