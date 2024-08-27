@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include <DdtProtoMaster.h>
+#include <SesionProtoMaster.h>
 
 #ifndef SERIAL_OUT
 #define SERIAL_OUT SerialUSB
@@ -54,15 +55,20 @@ void loop(){
             found = found->next;
             n_Devices++;
 
+            if(send_get_addr(curr)==SESION_PROTO_OK){
+                SERIAL_OUT.println("   ***Compatible");
+            }
+
             printI2cDevice(curr);
+            SERIAL_OUT.println();
             free(curr);
-            
         }
 
 
         SERIAL_OUT.printf("Found: %u devices\n",n_Devices);
         SERIAL_OUT.print("Free bytes: ");
         SERIAL_OUT.println(FreeBytes());
+
         cMillis = millis();
         next_Scan=cMillis+5000;
         while (next_High<cMillis)next_High+=2000;

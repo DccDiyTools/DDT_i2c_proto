@@ -3,25 +3,22 @@
 
 void onClientReceive(int reg)
 {
-    SERIAL_OUT.println("onReceive");
+    SERIAL_OUT.printf("onReceive %u\n",reg);
     while (Wire.available() > 0)
     {
         u_int8_t data;
         data = Wire.read(); // Not best option
         SERIAL_OUT.print(data);
-        int w = Wire.write(data + 1); // Test Made.
+        SERIAL_OUT.println();
+        //int w = Wire.write(data + 1); // Test Made.
     }
+    SERIAL_OUT.println();
 }
 
 void onClientRequest(void){
     SERIAL_OUT.println("onRequest");
-    while (Wire.available() > 0)
-    {
-        u_int8_t data;
-        data = Wire.read(); // Not best option
-        SERIAL_OUT.print(data);
-        int w = Wire.write(data + 1); // Test Made.
-    }
+    Wire.write(9);
+    SERIAL_OUT.println();
 }
 
 u_int8_t initDdtProtoDevice()

@@ -1,7 +1,7 @@
 #include "DdtProto.h"
+#ifdef DDT_MODE_MASTER
 #include "DdtProtoMaster.h"
 #include "Wire.h"
-#ifdef DDT_MODE_MASTER
 
 p_i2c_dev scan_devices()
 {
@@ -48,8 +48,11 @@ p_i2c_dev scan_devices()
             Serial.println(address, HEX);
         }
     }
-    if (nDevices == 0)
+    if (nDevices == 0){
         Serial.println("No I2C devices found\n");
+        Wire.end();
+        Wire.begin();
+    }
     else
         Serial.println("done\n");
 
@@ -57,7 +60,9 @@ p_i2c_dev scan_devices()
 }
 
 void printI2cDevice(p_i2c_dev dev){
+
     SERIAL_OUT.printf("Device data:\n  addres:0x%02x\n",dev->addr);
+
     u_int8_t panel= (dev->caps & MASK_CAPS_PANEL) >> 10;
     SERIAL_OUT.printf("  panel: 0x%02x -> ",panel);
     switch (panel)
