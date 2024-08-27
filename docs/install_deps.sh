@@ -10,4 +10,5 @@ tlmgr install tools siunits siunitx \
   ccicons csquotes babel-spanish \
   hyperxmp hyphen-spanish palatino\
   mathpazo fpl tex-gyre montserrat \
-  totpages everyshi
+  totpages everyshi listings tikz-timing \
+  pgfopts bytefield

@@ -1,4 +1,5 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% !TeX encoding = UTF-8
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Daniel Bahn Master Document
 % LaTeX Class
 % Version 0.1 (Jun 24, 2022)
@@ -43,6 +44,7 @@
 \RequirePackage[]{babel}
 \usepackage[oneside]{sidenotes}
 \RequirePackage{hyperref}
+\usepackage{listings}
 
 
 %\hypersetup{
@@ -201,4 +203,42 @@
 \fancyfoot[R]{} % Right footer
 
 
-\usepackage{mdframed}
+\usepackage[framemethod=TikZ]{mdframed}
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{codebg}{rgb}{0.95,0.95,0.92}
+\definecolor{codered}{rgb}{0.65,0.08,0.26}
+
+\newmdenv[outerlinewidth = 1,%
+    roundcorner = 10pt,
+    leftmargin = 20,
+    rightmargin = 20,
+    backgroundcolor = codebg,
+    outerlinecolor = blue!70!black,
+    innertopmargin = \topskip,
+    splittopskip = \topskip,
+]{mdCode}
+
+\lstdefinestyle{cppstyle}{
+    %backgroundcolor=\color{backcolour},
+    commentstyle=\color{codegreen}\ttfamily,
+    keywordstyle=\color{codepurple}\ttfamily,
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codered}\ttfamily,
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2,
+    morekeywords={byte}
+}
+
+%basicstyle=\ttfamily,
+%morecomment=[l][\color{magenta}]{\#}

@@ -22,6 +22,7 @@ La conexión física es en estrella, partiendo del nodo central o maestro. Pero 
 las lineas I2C (SDA y SCL)
 
 Los cables serán AWG 22 e irán a un conector JST\_PH2.0 de 5 pines:
+
 \begin{itemize}
     \item VCC (3.3v 100mA max)
     \item SDA (PullUp 1K Master)
@@ -31,8 +32,69 @@ Los cables serán AWG 22 e irán a un conector JST\_PH2.0 de 5 pines:
 \end{itemize}
 
 
+\subsection{Capa enlace}
+En el caso de I2C los microcontroladores contienen hardware para gestionar el bus. En concreto el que hace de
+master I2C. Este microcontrolador toma el control de las lineas I2C, tanto de SDA como SCL, (siendo esta ultima
+el reloj para mandar y recivir datos). Como el Master controla el reloj, este debe saber cuando bytes va recibir.
+Y el slave debe devolver ese mismo numero de bytes (sino los micro se bloquean)
+
+Una trama fisica I2C tipica tiene la forma (Negro Controla Master, Rojo controla Slave):
+\begin{figure}[H]
+    \centering{}
+    \begin{tikztimingtable}[
+            scale=0.69,
+            timing/dslope=0.1,
+            timing/.style={x=4ex,y=2ex},
+            x=1ex,
+            timing/rowdist=5ex,
+            timing/name/.style={font=\sffamily\scriptsize}
+        ]
+        SDA & L D{A6} D{A5} D{A4} D{A3} D{A2} D{A1} D{A0} D{R/W} D{[red]ACK} 8D{CMD} 8D{[red]Response}U \\
+        SCL & h L 49{c} U \\
+        \extracode
+        \begin{pgfonlayer}{background}
+            \begin{scope}[semitransparent ,semithick]
+                \vertlines[darkgray,dotted]{2,6, ...,106}
+            \end{scope}
+        \end{pgfonlayer}
+    \end{tikztimingtable}
+    \caption{Trama I2C de ejemplo}
+    \label{fig:I2C Example}
+\end{figure}
+
+El bit R/W se supone que es para indicar si una operacion es de escritura o de lectura. Como en las librerias de
+Arduino no se nos permite controlar este bit, no lo usaremos en el protocolo.
+
+En codigo una peticion de un comando (CMD) que devuele una cantidad de bytes (SIZE) debe hacerse como:
+
+\begin{mdCode}
+    \lstset{language=C++,style=cppstyle}
+    \begin{lstlisting}
+Wire.beginTransmission(address);    // Iniciar comunicacion
+Wire.write(CMD);                    // Enviar Commando
+Wire.endTransmission(false);        // Preparar para response
+Wire.requestFrom(address,SIZE);     // Solicitar response
+while(Wire.available()>0){          // Tantas veces como SIZE
+    byte slaveByte2 = Wire.read();  // Leer byte.
+}
+Wire.endTransmission(true);        // Liberar Bus
+\end{lstlisting}
+\end{mdCode}
+
+Para nuestro protocolo base nos definiremos las siguientes tramas:
+Request:
+\begin{figure}[H]
+    \centering{}
+    \begin{bytefield}{32}
+        \bitheader{0-31} \\
+        \bitbox{4}{Four} & \bitbox{8}{Eight} &
+        \bitbox{16}{Sixteen} & \bitbox{4}{Four}
+    \end{bytefield}
+    \caption{Trama Request}
+    \label{fig:Request}
+\end{figure}
 \subsection{Protocolo Sesion}
-Este protocolo sera el base que todos los dispositivos deben implementar, tendrá funciones de
+Este protocolo sera el base que todos los dispositivos deben implementar, tendra funciones de
 \begin{itemize}
     \item Init
     \item Reset
@@ -41,10 +103,10 @@ Este protocolo sera el base que todos los dispositivos deben implementar, tendr�
     \item \dots
 \end{itemize}
 
-Por una parte se definirán el flujo para iniciar los dispositivos y una serie de Registros y Operaciones I2C para
-el funcionamiento mínimo de los dispostivos
+Por una parte se definiran el flujo para iniciar los dispositivos y una serie de Registros y Operaciones I2C para
+el funcionamiento minimo de los dispostivos
 
 \subsection{Protocolos de Aplicacion}
 
-Por encima de I2C y de la sesión se definirán otros Registros/Operaciones I2C para cada uno de los tipos de
+Por encima de I2C y de la sesion se definiran otros Registros/Operaciones I2C para cada uno de los tipos de
 dispositivos que existan,  por ejemplo para botones, TFTs, palancas de control,\dots.
