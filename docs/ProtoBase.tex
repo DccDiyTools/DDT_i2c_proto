@@ -25,11 +25,11 @@ las lineas I2C (SDA y SCL)
 Los cables serán AWG 22 e irán a un conector JST\_PH2.0 de 5 pines:
 
 \begin{itemize}
-    \item() VCC (3.3v 100mA max)
-    \item() SDA (PullUp 1K Master)
-    \item() SCL (PullUp 1K Master)
-    \item() GND
-    \item() INT (PullUp 1K Master)
+    \item{} VCC (3.3v 100mA max)
+    \item{} SDA (PullUp 1K Master)
+    \item{} SCL (PullUp 1K Master)
+    \item{} GND
+    \item{} INT (PullUp 1K Master)
 \end{itemize}
 
 
@@ -82,26 +82,119 @@ Wire.endTransmission(true);        // Liberar Bus
 \end{lstlisting}
 \end{mdCode}
 
-Para nuestro protocolo base nos definiremos las siguientes tramas:
-Request:
+Para nuestro protocolo base nos definiremos una trama de Request y una de Response. Ambas tramas constaran
+de un byte cabecera incial y de otro final de CRC.\@
+
+La cabecera en ambos casos contendra 6 bits para indicar un campo de Tamaño. Y los dos bits restantes para indicar
+estados rapidos.
+
+Por simplificar la funcion CRC sera la suma de todos los bytes haciendo un ``xor'' con la cadena  ``0xAA''.\@
+
+
+\subsubsection{Trama Request}
+La trama de request consta de 4 bytes, mas todos los bytes que el comando necesite para los parametros.
+
 \begin{figure}[H]
     \centering{}
-    \begin{bytefield}{32}
-        \bitheader{0-31} \\ % chktex 8
-        \bitbox{4}{Four} & \bitbox{8}{Eight} &
-        \bitbox{16}{Sixteen} & \bitbox{4}{Four}
+    \begin{bytefield}[bitformatting={\small\bfseries},
+            bitwidth=2em,endianness=big]{8}
+        \bitheader[]{0-7} \\ % chktex 8
+        \begin{leftwordgroup}[]{Header}
+            \bitbox{1}{\small Ext} & \bitbox{1}{\small R/W} & \bitbox{6}{R\_Size} % chktex 1
+        \end{leftwordgroup} \\
+        \bitbox{8}{Proto ID*} \\
+        \bitbox{8}{CMD}\\
+        \begin{leftwordgroup}[]{Parametros}
+            \bitbox{8}{Params}\\
+            \bitbox{8}{\dots}
+        \end{leftwordgroup} \\
+        \bitbox{8}{CRC}\\
     \end{bytefield}
     \caption{Trama Request}
     \label{fig:Request}
 \end{figure}
+Campos:
+\begin{itemize}
+    \item{} \textbf{Header}: cabecera de la peticion, con un par de flags y el tamaño de Respuesta.
+          \begin{itemize}
+              \item{} \textbf{Ext}: 1 Bit, Si esta habilitado la request sera de un Protocolo Extendido. Se debe
+                    incluir el campo \textbf{Proto ID}
+              \item{} \textbf{R/W}: 1 Bit, Identificador de tipo de request, ``Read'' o ``Write''. Como no podemos
+                    controlar el bit I2C, lo ponemos aqui para asi poder indicarlo aqui. Asi nos permite utilizar estas tramas
+                    sobre otros transportes.
+              \item{} \textbf{R\_Size}: 6 Bits, Tamaño de la respuesta. Indica al cliente el numero de bytes que va a requerir el
+                    Master. De esta forma el Dispositivo sabe cuantos bytes enviar. Al usar 6 bits nos permite indicar hasta 63 Bytes.
+                    Se intentara indicar el numero exacto que la respuesta generara (\textbf{SHOULD} segun terminologia RFC)
+          \end{itemize}
+    \item{} \textbf{Proto ID}: Identificador del Protocolo de aplicacion, si el bit \textbf{Ext} es 0, la peticion
+          es para un protocolo basico y este campo no debe enviarse.
+    \item{} \textbf{CMD}: El identificador del Comando Requerido.
+    \item{} \textbf{Params}: Los bytes que requiera el comando como parametros.
+    \item{} \textbf{CRC}: Byte con el resultado de la funcion CRC segun se ha definido antes.
+\end{itemize}
+
+\subsubsection{Trama Response}
+La respuesta a una request debe ser del mismo numero de bytes indicados en el campo \textbf{R\_Size} de
+la misma, indistitanmente si los necesita o no. Para los casos que la respuesta no los necesite se debera incluir
+tantos bytes de PAD como sea necesario para llenar el hueco. \textbf{R\_Size} incluye la cabecera y el CRC.\@
+\begin{figure}[H]
+    \centering{}
+    \begin{bytefield}[bitformatting={\small\bfseries},
+            bitwidth=2em,endianness=big]{8}
+        \bitheader[]{0-7} \\ % chktex 8
+        \begin{leftwordgroup}[]{R\_Size}
+            \bitbox{1}[]{\small OF} & \bitbox{1}{\small Err} & \bitbox{6}{Size} \\ % chktex 1
+            \begin{rightwordgroup}[]{Size}
+                \bitbox{8}{Response} \\
+                \bitbox{8}{\dots}
+            \end{rightwordgroup}\\
+            \bitbox{8}{PAD*} \\
+            \bitbox{8}{\dots} \\
+            \bitbox{8}{CRC}
+        \end{leftwordgroup}
+    \end{bytefield}
+    \caption{Trama Response}
+    \label{fig:Response}
+\end{figure}
+
+Campos:
+\begin{itemize}
+    \item{} \textbf{Header}: cabecera de la peticion, con un par de flags y el tamaño de Respuesta.
+          \begin{itemize}
+              \item{} \textbf{OF}: 1 Bit, Indica si los datos a responder no caben en tamaño asignado por \textbf{R\_Size}.
+              \item{} \textbf{Err}: 1 Bit,  Indica si ha habido algun error. En caso afirmativo la respuesta sera un codigo de error
+              \item{} \textbf{Size}: 6 Bits, Tamaño de la respuesta. Indica al Master cuantos bytes son realmente utiles, el resto seran
+                    relleno
+          \end{itemize}
+    \item{} \textbf{Response}: Los Bytes con la respuesta. Si hay un error bit \textbf{Err} 1, sera el codigo de error.
+    \item{} \textbf{PAD}: Bytes de relleno.
+    \item{} \textbf{CRC}: Byte con el resultado de la funcion CRC segun se ha definido antes.
+\end{itemize}
+
+En el caso de que el tamaño solicitado sea insufciente para la respuesta, se debe crear una trama con los bits \textbf{OF} y \textbf{Err}
+a 1 y la respuesta tendra codigo de error \textbf{REQUEST\_SIZE\_ERROR}\sidenote{Sea cual sea el valor
+    definido, Mirar el anexo correspondiente}.
+
+No obstante se puede dar el caso de que el dispositivo pueda responder parcialmente, ya que en el protocolo se tiene en cuenta el envio
+y procesado de listas de elementos. El caso de que el cliente aun pueda responder con al menos un elemento la repuesta contendra el bit
+\textbf{OF} a 1 pero \textbf{Err} a 0, esto es una indicacion de que se ha podido devolver parte de la informacion.
+
+Como por ejemplo la la lista eventos del usuario. Se puede dar el caso de que el dispositivo tenga acumulados 10 eventos, pero la Request
+de obtencion de eventos solo tenga hueco para 5. En este caso \textbf{Err} estara 0 y la response solo contendra 5 Eventos. El master
+tendra que realizar otra request para obtener los 5 restantes.
+
+El relleno o \textbf{PAD} son bytes sin informacion util pero si entran en el calculo del CRC.\@ Existen diferentes funciones para poner
+un relleno, como un valor fijo, un patron conocido (FF00 \dots{} 00FF), \dots{}. Para este protocolo solo se exigira que todos los bytes
+tengan el mismo valor y se recomienda que el valor sea el numero de bytes con relleno. En un futuro esto se podra comprobar.
+
 \subsection{Protocolo Sesion}
 Este protocolo sera el base que todos los dispositivos deben implementar, tendra funciones de
 \begin{itemize}
-    \item() Init
-    \item() Reset
-    \item() Identificacion
-    \item() Gestion de direcciones I2C
-    \item() \dots()
+    \item{} Init
+    \item{} Reset
+    \item{} Identificacion
+    \item{} Gestion de direcciones I2C
+    \item{} \dots{}
 \end{itemize}
 
 Por una parte se definiran el flujo para iniciar los dispositivos y una serie de Registros y Operaciones I2C para
