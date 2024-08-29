@@ -1,25 +1,38 @@
 #include "DdtProtoDevice.h"
 #include <Wire.h>
+#ifdef DDT_MODE_CLIENT
+#include "I2cTransport.h"
+
+u_int8_t* buff=NULL;
+u_int8_t buff_size=0;
 
 void onClientReceive(int reg)
 {
     SERIAL_OUT.printf("onReceive %u\n",reg);
-    while (Wire.available() > 0)
-    {
-        u_int8_t data;
-        data = Wire.read(); // Not best option
-        SERIAL_OUT.print(data);
-        SERIAL_OUT.println();
-        //int w = Wire.write(data + 1); // Test Made.
+    if (buff!=NULL || buff_size!= reg){
+        free(buff);
+        buff=NULL;
+        buff=(byte*)malloc(reg*sizeof(u_int8_t));
+        buff_size=reg;
     }
-    SERIAL_OUT.println();
+
+    u_int8_t read = Wire.readBytes(buff,reg);
+    SERIAL_OUT.printf("  read %u\n  ->",read);
+    for(int i=0;i<read;i++){
+        SERIAL_OUT.printf(" %02x",buff[i]);
+    }
+    SERIAL_OUT.println("\n");
 }
 
 void onClientRequest(void){
     SERIAL_OUT.println("onRequest");
-    Wire.write(9);
+    byte rsize = buff[0] & I2C_SIZE_MASK;
+    send_response_byte(9,false, false, rsize);
     SERIAL_OUT.println();
 }
+
+#endif
+
 
 u_int8_t initDdtProtoDevice()
 {
