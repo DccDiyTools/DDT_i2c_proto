@@ -12,11 +12,11 @@
             "type": "platformio-debug",
             "request": "launch",
             "name": "PIO Debug",
-            "executable": "/Users/dvilascsic/OHS/DccDiyTools/DDT_i2c_proto/examples/Stm32Slave/.pio/build/genericSTM32F103CB/firmware.elf",
-            "projectEnvName": "genericSTM32F103CB",
-            "toolchainBinDir": "/Users/dvilascsic/.platformio/packages/toolchain-gccarmnoneeabi/bin",
+            "executable": "/Users/daniel/Electronica/DccDiyTools/DDT_i2c_proto/examples/Stm32Slave/.pio/build/STM32F030_Devel_generic_v2/firmware.elf",
+            "projectEnvName": "STM32F030_Devel_generic_v2",
+            "toolchainBinDir": "/Users/daniel/.platformio/packages/toolchain-gccarmnoneeabi/bin",
             "internalConsoleOptions": "openOnSessionStart",
-            "svdPath": "/Users/dvilascsic/.platformio/platforms/ststm32/misc/svd/STM32F103xx.svd",
+            "svdPath": "/Users/daniel/.platformio/platforms/ststm32/misc/svd/STM32F030.svd",
             "preLaunchTask": {
                 "type": "PlatformIO",
                 "task": "Pre-Debug"
@@ -26,21 +26,21 @@
             "type": "platformio-debug",
             "request": "launch",
             "name": "PIO Debug (skip Pre-Debug)",
-            "executable": "/Users/dvilascsic/OHS/DccDiyTools/DDT_i2c_proto/examples/Stm32Slave/.pio/build/genericSTM32F103CB/firmware.elf",
-            "projectEnvName": "genericSTM32F103CB",
-            "toolchainBinDir": "/Users/dvilascsic/.platformio/packages/toolchain-gccarmnoneeabi/bin",
+            "executable": "/Users/daniel/Electronica/DccDiyTools/DDT_i2c_proto/examples/Stm32Slave/.pio/build/STM32F030_Devel_generic_v2/firmware.elf",
+            "projectEnvName": "STM32F030_Devel_generic_v2",
+            "toolchainBinDir": "/Users/daniel/.platformio/packages/toolchain-gccarmnoneeabi/bin",
             "internalConsoleOptions": "openOnSessionStart",
-            "svdPath": "/Users/dvilascsic/.platformio/platforms/ststm32/misc/svd/STM32F103xx.svd"
+            "svdPath": "/Users/daniel/.platformio/platforms/ststm32/misc/svd/STM32F030.svd"
         },
         {
             "type": "platformio-debug",
             "request": "launch",
             "name": "PIO Debug (without uploading)",
-            "executable": "/Users/dvilascsic/OHS/DccDiyTools/DDT_i2c_proto/examples/Stm32Slave/.pio/build/genericSTM32F103CB/firmware.elf",
-            "projectEnvName": "genericSTM32F103CB",
-            "toolchainBinDir": "/Users/dvilascsic/.platformio/packages/toolchain-gccarmnoneeabi/bin",
+            "executable": "/Users/daniel/Electronica/DccDiyTools/DDT_i2c_proto/examples/Stm32Slave/.pio/build/STM32F030_Devel_generic_v2/firmware.elf",
+            "projectEnvName": "STM32F030_Devel_generic_v2",
+            "toolchainBinDir": "/Users/daniel/.platformio/packages/toolchain-gccarmnoneeabi/bin",
             "internalConsoleOptions": "openOnSessionStart",
-            "svdPath": "/Users/dvilascsic/.platformio/platforms/ststm32/misc/svd/STM32F103xx.svd",
+            "svdPath": "/Users/daniel/.platformio/platforms/ststm32/misc/svd/STM32F030.svd",
             "loadMode": "manual"
         }
     ]
