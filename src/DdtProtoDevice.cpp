@@ -19,7 +19,7 @@ void onClientReceive(int reg)
     u_int8_t read = Wire.readBytes(buff,reg);
     SERIAL_OUT.printf("  read %u\n  ->",read);
     for(int i=0;i<read;i++){
-        SERIAL_OUT.printf(" %02x",buff[i]);
+        SERIAL_OUT.printf(" ",buff[i]);
     }
     SERIAL_OUT.println("\n");
 }
@@ -27,7 +27,7 @@ void onClientReceive(int reg)
 void onClientRequest(void){
     SERIAL_OUT.println("onRequest");
     byte rsize = buff[0] & I2C_SIZE_MASK;
-    send_response_byte(9,false, false, rsize);
+    send_response_byte(DDT_I2C_ADDR,false, false, rsize);
     SERIAL_OUT.println();
 }
 
@@ -43,8 +43,8 @@ u_int8_t initDdtProtoDevice()
 #endif
 #ifdef DDT_MODE_CLIENT
 #pragma message "DDT_MODE_CLIENT"
-    SERIAL_OUT.println("Begin Client");
-    Wire.begin(9);
+    SERIAL_OUT.printf("Begin Client on %02x\n",DDT_I2C_ADDR);
+    Wire.begin(DDT_I2C_ADDR);
     Wire.onReceive(onClientReceive);
     Wire.onRequest(onClientRequest);
 #endif

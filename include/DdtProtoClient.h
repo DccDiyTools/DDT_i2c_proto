@@ -8,6 +8,10 @@
 #error "Client loaded in Master mode"
 #endif
 
+#ifndef DDT_I2C_ADDR
+#error "DDT_I2C_ADDR not defined"
+#endif  
+
 #include "DdtProtoDevice.h"
 
 #endif
